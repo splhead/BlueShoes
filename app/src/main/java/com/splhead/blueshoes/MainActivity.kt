@@ -6,10 +6,13 @@ import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import com.splhead.blueshoes.data.NavMenuItemsDataBase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.nav_menu.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -81,5 +84,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    /*
+ * Método que inicializa a lista de itens de menu gaveta
+ * que estará presente quando o usuário estiver ou não
+ * conectado ao aplicativo.
+ * */
+    private fun initNavMenuItems() {
+        rv_menu_items.setHasFixedSize(false)
+        rv_menu_items.layoutManager = LinearLayoutManager(this)
+        rv_menu_items.adapter = NavMenuItemsAdapter(NavMenuItemsDataBase(this).items)
+    }
+
+    /*
+ * Método que inicializa a parte de lista de itens de menu
+ * gaveta que estará presente somente quando o usuário
+ * estiver conectado ao aplicativo.
+ * */
+    private fun initNavMenuItemsLogged() {
+        rv_menu_items_logged.setHasFixedSize(true)
+        rv_menu_items_logged.layoutManager = LinearLayoutManager(this)
+        rv_menu_items_logged.adapter = NavMenuItemsAdapter(NavMenuItemsDataBase(this).itemsLogged)
     }
 }
